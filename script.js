@@ -24,15 +24,15 @@ const products =[
 
   {
     id: 4,
-    name: "sofa",
-    image: "sofa.jpeg",
+    name: "phone",
+    image: "phone.jpeg",
     price: 20000.0,
     quantity: 15,
   },
   {
     id: 5,
-    name: "Watch",
-    image: "watch.jpeg",
+    name: "sofa",
+    image: "sofa.jpeg",
     price: 1500.0,
     quantity: 25,
   },
@@ -85,8 +85,9 @@ const products =[
         <p>Price: $${product.price}</p>
         <p>Quantity: ${product.quantity}</p>
         <button onclick="addToCart(${product.id}, '${product.name}', '${product.image}', ${product.price}, 1)">Add to Cart</button>
-        <button class="decrement" onclick="decrementQuantity(${product.id})">-</button>
-       <button class="increment" onclick="incrementQuantity(${product.id})">+</button>
+        <button style="background:red" onclick="decrementQuantity(${product.id})">-</button>
+        <button style="background:blue" onclick="decrementQuantity(${product.id})">+</button>
+       
       `;
       container.appendChild(productElement);
     });
