@@ -1,0 +1,16 @@
+User Browses Products:
+Display all products with name, price, quantity, and "Add to Cart" buttons.
+
+User Adds Product to Cart:
+The product is added to the cart or its quantity is increased.
+
+User Modifies Cart:
+User can increment, decrement, or remove products.
+User Views Cart Summary:
+Display total price and average price.
+
+User Filters and Sorts Products:
+Allow filtering products by price and sorting the cart by price.
+
+User Clears Cart:
+Option to clear the entire cart, with the cart display updated.
