@@ -1,4 +1,4 @@
-let cart = [];
+// let cart = [];
 const products =[
   {
     id: 1,
@@ -85,9 +85,13 @@ const products =[
         <p>Price: $${product.price}</p>
         <p>Quantity: ${product.quantity}</p>
         <button onclick="addToCart(${product.id}, '${product.name}', '${product.image}', ${product.price}, 1)">Add to Cart</button>
+        <button class="decrement" onclick="decrementQuantity(${product.id})">-</button>
+       <button class="increment" onclick="incrementQuantity(${product.id})">+</button>
       `;
       container.appendChild(productElement);
     });
+
+    
 // Add to Cart
 function addToCart(id, name, image, price, quantity) {
   const existingProduct = cart.find((item) => item.id === id);
@@ -98,6 +102,8 @@ function addToCart(id, name, image, price, quantity) {
   }
   updateCartDisplay();
 }
+
+
 
 
  // Increment product quantity
@@ -137,7 +143,7 @@ function calculateAveragePrice() {
 
 // Clear Cart
 function clearCart() {
-  cart = [];
+  products = [];
   console.log("Your cart is now empty.");
   updateCartDisplay();
   hideClearCartButton(); 
@@ -153,7 +159,7 @@ function updateCartDisplay() {
     hideClearCartButton();
   } else {
     // Display the cart items
-    cart.forEach((product) => {
+    products.forEach((product) => {
       const cartItem = document.createElement("div");
       cartItem.classList.add("cart-item");
       cartItem.innerHTML = `
@@ -161,7 +167,7 @@ function updateCartDisplay() {
         <img src="${product.image}" alt="${product.name}" style="width:100px;height:100px;">
         <p>Price: $${product.price}</p>
         <p>Quantity: ${product.quantity}</p>
-        <button onclick="removeFromCart(${product.id})">Remove</button>
+        <button onclick="removeFromCart(${product.id})">Remove  from cart</button>
       `;
       cartContainer.appendChild(cartItem);
     });

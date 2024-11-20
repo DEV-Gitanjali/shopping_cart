@@ -207,3 +207,7 @@ h1 {
 #cart-container button:hover {
   background-color: #2980b9;
 }
+
+.increment{
+  color: blue;
+}
