@@ -1,8 +1,8 @@
-// let cart = [];
+let cart = [];
 const products =[
   {
     id: 1,
-    name: "sofa",
+    name: "Sofa",
     image: "sofa.jpeg",
     price: 20000.0,
     quantity: 15,
@@ -24,54 +24,23 @@ const products =[
 
   {
     id: 4,
-    name: "phone",
+    name: "Phone",
     image: "phone.jpeg",
     price: 20000.0,
     quantity: 15,
   },
+
   {
     id: 5,
-    name: "sofa",
-    image: "sofa.jpeg",
-    price: 1500.0,
-    quantity: 25,
-  },
-  {
-    id: 6,
-    name: "Water Bottle",
-    image: "bottle.jpeg",
-    price: 225.0,
-    quantity: 10,
-  },
-  {
-    id: 7,
-    name: "sofa",
-    image: "sofa.jpeg",
-    price: 20000.0,
+    name: "HeadPhone",
+    image: "headphone.jpeg",
+    price: 2000.0,
     quantity: 15,
   },
-  {
-    id: 8,
-    name: "Watch",
-    image: "watch.jpeg",
-    price: 1500.0,
-    quantity: 25,
-  },
-  {
-    id: 9,
-    name: "Water Bottle",
-    image: "bottle.jpeg",
-    price: 225.0,
-    quantity: 10,
-  },
-  {
-    id: 10,
-    name: "sofa",
-    image: "sofa.jpeg",
-    price: 20000.0,
-    quantity: 15,
-  },
-  
+ 
+ 
+ 
+ 
 ]
 
     // Display products
@@ -85,8 +54,6 @@ const products =[
         <p>Price: $${product.price}</p>
         <p>Quantity: ${product.quantity}</p>
         <button onclick="addToCart(${product.id}, '${product.name}', '${product.image}', ${product.price}, 1)">Add to Cart</button>
-        <button style="background:red" onclick="decrementQuantity(${product.id})">-</button>
-        <button style="background:blue" onclick="decrementQuantity(${product.id})">+</button>
        
       `;
       container.appendChild(productElement);
@@ -101,80 +68,161 @@ function addToCart(id, name, image, price, quantity) {
   } else {
     cart.push({ id, name, image, price, quantity });
   }
-  updateCartDisplay();
+  updateCartIcon();
 }
 
 
-
-
- // Increment product quantity
- function incrementQuantity(id) {
-  const product = cart.find(item => item.id === id);
-  if (product) {
-    product.quantity += 1;
-  }
-  updateCartDisplay();
+// Update cart icon count
+function updateCartIcon() {
+  const cartIcon = document.querySelector(".cart-count");
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  cartIcon.textContent = totalItems;
 }
 
-// Decrement product quantity
-function decrementQuantity(id) {
-  const product = cart.find(item => item.id === id);
-  if (product && product.quantity > 1) {
-    product.quantity -= 1;
-  }
-  updateCartDisplay();
-}
 
-// Remove from Cart
-function removeFromCart(productId) {
-  cart = cart.filter((item) => item.id !== productId);
-  updateCartDisplay();
-}
+// Handle Cart Slider
+const cartSlider = document.getElementById("cart-slider");
+const closeCartBtn = document.getElementById("close-cart");
+const cartIcon = document.querySelector(".icon[href='#cart']");
+const cartItemsContainer = document.getElementById("cart-items");
+const totalPriceElement = document.getElementById("total-price");
 
-// Calculate Total Price
+// Open the cart slider
+cartIcon.addEventListener("click", () => {
+  cartSlider.classList.add("active");
+  displayCartItems();
+});
+
+// Close the cart slider
+closeCartBtn.addEventListener("click", () => {
+  cartSlider.classList.remove("active");
+});
+
+
+
+// Function to calculate the total price
 function calculateTotalPrice() {
-  return cart.reduce((total, product) => total + product.price * product.quantity, 0);
+  return cart.reduce((sum, item) => sum + item.price * item.quantity, 0);
 }
 
-// Calculate Average Price
+// Function to calculate the average price
 function calculateAveragePrice() {
-  if (cart.length === 0) return 0;
-  return calculateTotalPrice() / cart.length;
+  if (cart.length === 0) return 0; // Avoid division by zero
+  const totalPrice = calculateTotalPrice();
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  return (totalPrice / totalItems).toFixed(2); // Rounded to 2 decimal places
 }
 
-// Clear Cart
-function clearCart() {
-  products = [];
-  console.log("Your cart is now empty.");
-  updateCartDisplay();
-  hideClearCartButton(); 
+
+// Function to calculate the average price
+function calculateAveragePrice() {
+  if (cart.length === 0) return 0; // Avoid division by zero
+  const totalPrice = calculateTotalPrice();
+  const totalItems = cart.reduce((sum, item) => sum + item.quantity, 0);
+  return (totalPrice / totalItems).toFixed(2); // Rounded to 2 decimal places
 }
 
-// Update Cart Display
-function updateCartDisplay() {
-  const cartContainer = document.getElementById("cart");
-  cartContainer.innerHTML = "";  // Clear the cart display
+// Function to display cart items
+// Function to increment the quantity of a cart item
+function incrementQuantity(id) {
+  const item = cart.find((item) => item.id === id);
+  if (item) {
+    item.quantity++;
+  }
+  updateCart();
+}
+
+// Function to decrement the quantity of a cart item
+function decrementQuantity(id) {
+  const item = cart.find((item) => item.id === id);
+  if (item && item.quantity > 1) {
+    item.quantity--;
+  } else if (item) {
+    // Remove item if quantity goes to zero
+    cart = cart.filter((item) => item.id !== id);
+  }
+  updateCart();
+}
+
+
+// Function to remove an item from the cart
+function removeFromCart(id) {
+  // Filter out the item with the matching id
+  cart = cart.filter((item) => item.id !== id);
+  
+  // Update the cart display and cart icon
+  updateCart();
+}
+
+
+// Function to update cart items and prices
+
+// Function to update the cart
+function updateCart() {
+  displayCartItems();
+  updateCartIcon();
+}
+
+// Function to display cart items and total/average price
+function displayCartItems() {
+  cartItemsContainer.innerHTML = ""; // Clear previous items
 
   if (cart.length === 0) {
-    // If the cart is empty, hide the Clear Cart button
-    hideClearCartButton();
-  } else {
-    // Display the cart items
-    products.forEach((product) => {
-      const cartItem = document.createElement("div");
-      cartItem.classList.add("cart-item");
-      cartItem.innerHTML = `
-        <h4>${product.name}</h4>
-        <img src="${product.image}" alt="${product.name}" style="width:100px;height:100px;">
-        <p>Price: $${product.price}</p>
-        <p>Quantity: ${product.quantity}</p>
-        <button onclick="removeFromCart(${product.id})">Remove  from cart</button>
-      `;
-      cartContainer.appendChild(cartItem);
-    });
+    cartItemsContainer.innerHTML = "<p>Your cart is empty!</p>";
+    totalPriceElement.textContent = `Total Price: $0`;
+    document.getElementById("average-price").textContent = `Average Price: $0`;
+    return;
   }
 
+  cart.forEach((item) => {
+    const cartItem = document.createElement("div");
+    cartItem.classList.add("cart-item");
 
-  document.getElementById("total-price").innerText = `Total Price: $${calculateTotalPrice().toFixed(2)}`;
-  document.getElementById("average-price").innerText = `Average Price: $${calculateAveragePrice().toFixed(2)}`;
+    cartItem.innerHTML = `
+      <img src="${item.image}" alt="${item.name}">
+      <div class="cart-item-details">
+        <h4>${item.name}</h4>
+        <p>Price: $${item.price * item.quantity}</p>
+        <p>
+          <button class="quantity-btn" onclick="decrementQuantity(${item.id})">-</button>
+          ${item.quantity}
+          <button class="quantity-btn" onclick="incrementQuantity(${item.id})">+</button>
+        </p>
+      </div>
+      <button onclick="removeFromCart(${item.id})" class="remove-btn">Remove</button>
+    `;
+
+    cartItemsContainer.appendChild(cartItem);
+  });
+
+  // Update total and average price
+  totalPriceElement.textContent = `Total Price: $${calculateTotalPrice()}`;
+  document.getElementById("average-price").textContent = `Average Price: $${calculateAveragePrice()}`;
 }
+
+
+
+function clearCart() {
+  
+  cart = [];
+  
+  
+  updateCart();  
+  cartItemsContainer.innerHTML = "<p>Your cart is empty!</p>";
+  
+  
+  totalPriceElement.textContent = "Total Price: $0";
+  averagePriceElement.textContent = "Average Price: $0";
+}
+
+
+
+
+
+
+
+
+
+
+
+

@@ -4,20 +4,41 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="style.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <title>Shopping Cart</title>
    
   </head>
   <body>
-    <h1>shopping cart</h1>
- <div id="product-list"> <div>
-      
- <div id="cart-container">
-  <h2>Cart</h2>
-  <div id="cart"></div>
-  <p id="total-price">Total Price: $0.00</p>
-  <p id="average-price">Average Price: $0.00</p>
-  <button onclick="clearCart()">Clear Cart</button>
-</div>  
+    <nav class="navbar">
+      <div class="logo">ShopEase</div>
+      <div class="icon-links">
+        <a href="#wishlist" class="icon">
+          <i class="fas fa-heart"></i>
+        </a>
+        <a href="#cart" class="icon">
+          <i class="fas fa-shopping-cart"></i>
+          <span class="cart-count">0</span>
+        </a>
+        
+        </div>
+      </div>
+    </nav>
+    
+    <div id="product-list"> <div>
+
+
+ <div id="cart-slider" class="cart-slider">
+  <div class="cart-header">
+    <h2>Your Cart</h2>
+    <button id="close-cart" class="close-btn">X</button>
+  </div>
+  <div id="cart-items" class="cart-items"></div>
+  <div class="cart-footer">
+    <p id="total-price">Total Price: $0</p>
+    <p id="average-price">Average Price: $0</p>
+    <button class="clear-cart-btn" onclick="clearCart()">Clear Cart</button>
+  </div>
+</div>
 
 
   <script src="script.js"></script>
